@@ -39,7 +39,6 @@
 
     <div class="player">
       <audio id="audio" preload="auto">
-        <source src="audio.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
 
@@ -94,7 +93,18 @@
       </div>
     </div>
 
-    <p class="hint">Drop your <code>audio.mp3</code> file next to <code>index.html</code> to play it.</p>
+    <div class="drop-zone" id="drop-zone">
+      <label for="file-input" class="drop-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        <span>Drop audio file here or <u>browse</u></span>
+        <small>Supports .m4a, .mp3, .wav, .ogg, .flac&hellip;</small>
+      </label>
+      <input type="file" id="file-input" accept="audio/*" hidden />
+    </div>
   </main>
 
   <script src="player.js"></script>

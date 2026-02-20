@@ -241,17 +241,37 @@ input[type="range"]#volume::-moz-range-thumb {
   cursor: pointer;
 }
 
-/* ── Hint ── */
-.hint {
+/* ── Drop zone ── */
+.drop-zone {
   margin-top: 1.2rem;
-  font-size: 0.78rem;
-  color: #b07050;
-  line-height: 1.5;
+  border: 2px dashed rgba(200, 100, 50, 0.4);
+  border-radius: 14px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
 }
 
-.hint code {
-  background: rgba(255,160,80,0.2);
-  padding: 0.05em 0.35em;
-  border-radius: 4px;
-  font-size: 0.85em;
+.drop-zone:hover,
+.drop-zone.drag-over {
+  background: rgba(255, 160, 80, 0.12);
+  border-color: #ff8c56;
+}
+
+.drop-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  color: #c05a10;
+  font-size: 0.85rem;
+}
+
+.drop-label svg {
+  color: #e07040;
+}
+
+.drop-label small {
+  color: #b07050;
+  font-size: 0.72rem;
 }
