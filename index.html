@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peach Tunes</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="background">
+    <div class="peach-blob blob-1"></div>
+    <div class="peach-blob blob-2"></div>
+    <div class="peach-blob blob-3"></div>
+  </div>
+
+  <main class="card">
+    <div class="peach-art" aria-hidden="true">
+      <svg viewBox="0 0 160 180" xmlns="http://www.w3.org/2000/svg" class="peach-svg">
+        <!-- Leaf -->
+        <path d="M80 20 C95 5, 130 10, 115 35 C100 55, 80 45, 80 20Z"
+              fill="#7ab648" />
+        <!-- Stem -->
+        <line x1="80" y1="20" x2="80" y2="48" stroke="#8b6f47" stroke-width="3" stroke-linecap="round"/>
+        <!-- Peach body -->
+        <ellipse cx="80" cy="115" rx="62" ry="66" fill="#ffb347"/>
+        <!-- Blush -->
+        <ellipse cx="100" cy="105" rx="30" ry="35" fill="#ff8c69" opacity="0.55"/>
+        <!-- Crease -->
+        <path d="M80 52 Q68 115 80 178" stroke="#e07040" stroke-width="3"
+              fill="none" stroke-linecap="round" opacity="0.6"/>
+        <!-- Highlight -->
+        <ellipse cx="60" cy="85" rx="14" ry="18" fill="white" opacity="0.18"/>
+      </svg>
+    </div>
+
+    <h1 class="title">Peach Tunes</h1>
+    <p class="subtitle">Sweet sounds, just for you</p>
+
+    <div class="player">
+      <audio id="audio" preload="auto">
+        <source src="audio.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+
+      <div class="track-info">
+        <span class="track-name" id="track-name">audio.mp3</span>
+      </div>
+
+      <div class="progress-container" id="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <div class="time-row">
+        <span id="current-time">0:00</span>
+        <span id="duration">0:00</span>
+      </div>
+
+      <div class="controls">
+        <button class="ctrl-btn" id="rewind-btn" title="Rewind 10s">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 .49-4"></path>
+            <text x="8" y="15" font-size="6" fill="currentColor" stroke="none" font-weight="bold">10</text>
+          </svg>
+        </button>
+
+        <button class="play-btn" id="play-btn" title="Play / Pause">
+          <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+            <rect x="6" y="4" width="4" height="16"/>
+            <rect x="14" y="4" width="4" height="16"/>
+          </svg>
+        </button>
+
+        <button class="ctrl-btn" id="forward-btn" title="Forward 10s">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <path d="M20.49 15a9 9 0 1 1-.49-4"></path>
+            <text x="8" y="15" font-size="6" fill="currentColor" stroke="none" font-weight="bold">10</text>
+          </svg>
+        </button>
+      </div>
+
+      <div class="volume-row">
+        <svg class="vol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+        <input type="range" id="volume" min="0" max="1" step="0.01" value="1" />
+      </div>
+    </div>
+
+    <p class="hint">Drop your <code>audio.mp3</code> file next to <code>index.html</code> to play it.</p>
+  </main>
+
+  <script src="player.js"></script>
+</body>
+</html>
