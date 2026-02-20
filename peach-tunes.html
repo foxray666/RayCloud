@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peach Tunes</title>
+  <style>
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  font-family: 'Georgia', serif;
+  background: #fff4ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Animated background blobs ── */
+.background {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.peach-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  animation: drift 12s ease-in-out infinite alternate;
+}
+
+.blob-1 {
+  width: 420px; height: 420px;
+  background: #ffb347;
+  top: -100px; left: -80px;
+  animation-duration: 14s;
+}
+.blob-2 {
+  width: 340px; height: 340px;
+  background: #ff8c69;
+  bottom: -80px; right: -60px;
+  animation-duration: 11s;
+  animation-delay: -4s;
+}
+.blob-3 {
+  width: 260px; height: 260px;
+  background: #ffd27f;
+  top: 50%; left: 60%;
+  animation-duration: 9s;
+  animation-delay: -7s;
+}
+
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(30px, 20px) scale(1.08); }
+}
+
+/* ── Card ── */
+.card {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 179, 71, 0.35);
+  border-radius: 28px;
+  padding: 2.5rem 2.8rem 2rem;
+  max-width: 400px;
+  width: 92vw;
+  box-shadow: 0 12px 48px rgba(200, 100, 40, 0.14), 0 2px 8px rgba(0,0,0,0.06);
+  text-align: center;
+}
+
+/* ── Peach illustration ── */
+.peach-art { margin-bottom: 0.6rem; }
+
+.peach-svg {
+  width: 120px;
+  height: 135px;
+  filter: drop-shadow(0 6px 14px rgba(200, 90, 30, 0.25));
+  animation: bob 4s ease-in-out infinite;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* ── Typography ── */
+.title {
+  font-size: 2rem;
+  color: #c05a10;
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: #d4804a;
+  margin-top: 0.25rem;
+  margin-bottom: 1.6rem;
+  font-style: italic;
+}
+
+/* ── Player ── */
+.player {
+  background: rgba(255, 200, 140, 0.18);
+  border: 1px solid rgba(255, 160, 80, 0.25);
+  border-radius: 18px;
+  padding: 1.2rem 1.4rem 1rem;
+}
+
+.track-info {
+  margin-bottom: 0.8rem;
+}
+
+.track-name {
+  font-size: 0.88rem;
+  color: #a04820;
+  font-family: monospace;
+  word-break: break-all;
+}
+
+/* Progress bar */
+.progress-container {
+  background: rgba(200, 100, 50, 0.18);
+  border-radius: 99px;
+  height: 6px;
+  cursor: pointer;
+  margin-bottom: 0.35rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff8c69, #ffb347);
+  border-radius: 99px;
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+
+.time-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: #b06030;
+  margin-bottom: 1rem;
+  font-family: monospace;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.play-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff9a56, #ffb347);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 16px rgba(200, 100, 40, 0.35);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+
+.play-btn:hover {
+  transform: scale(1.07);
+  box-shadow: 0 6px 22px rgba(200, 100, 40, 0.45);
+}
+
+.play-btn:active { transform: scale(0.96); }
+
+.play-btn svg { width: 22px; height: 22px; }
+
+.ctrl-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 160, 80, 0.2);
+  border: 1px solid rgba(200, 100, 50, 0.25);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c05a10;
+  transition: background 0.15s, transform 0.12s;
+}
+
+.ctrl-btn:hover { background: rgba(255, 160, 80, 0.38); }
+.ctrl-btn:active { transform: scale(0.93); }
+.ctrl-btn svg { width: 20px; height: 20px; }
+
+/* Volume */
+.volume-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.vol-icon {
+  width: 18px;
+  height: 18px;
+  color: #c06030;
+  flex-shrink: 0;
+}
+
+input[type="range"]#volume {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  height: 4px;
+  border-radius: 99px;
+  background: rgba(200, 100, 50, 0.2);
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]#volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #ff8c56;
+  box-shadow: 0 1px 4px rgba(200,80,30,0.4);
+  cursor: pointer;
+}
+
+input[type="range"]#volume::-moz-range-thumb {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: none;
+  background: #ff8c56;
+  cursor: pointer;
+}
+
+/* ── Drop zone ── */
+.drop-zone {
+  margin-top: 1.2rem;
+  border: 2px dashed rgba(200, 100, 50, 0.4);
+  border-radius: 14px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.drop-zone:hover,
+.drop-zone.drag-over {
+  background: rgba(255, 160, 80, 0.12);
+  border-color: #ff8c56;
+}
+
+.drop-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  color: #c05a10;
+  font-size: 0.85rem;
+}
+
+.drop-label svg {
+  color: #e07040;
+}
+
+.drop-label small {
+  color: #b07050;
+  font-size: 0.72rem;
+}
+  </style>
+</head>
+<body>
+
+  <div class="background">
+    <div class="peach-blob blob-1"></div>
+    <div class="peach-blob blob-2"></div>
+    <div class="peach-blob blob-3"></div>
+  </div>
+
+  <main class="card">
+    <div class="peach-art" aria-hidden="true">
+      <svg viewBox="0 0 160 180" xmlns="http://www.w3.org/2000/svg" class="peach-svg">
+        <!-- Leaf -->
+        <path d="M80 20 C95 5, 130 10, 115 35 C100 55, 80 45, 80 20Z"
+              fill="#7ab648" />
+        <!-- Stem -->
+        <line x1="80" y1="20" x2="80" y2="48" stroke="#8b6f47" stroke-width="3" stroke-linecap="round"/>
+        <!-- Peach body -->
+        <ellipse cx="80" cy="115" rx="62" ry="66" fill="#ffb347"/>
+        <!-- Blush -->
+        <ellipse cx="100" cy="105" rx="30" ry="35" fill="#ff8c69" opacity="0.55"/>
+        <!-- Crease -->
+        <path d="M80 52 Q68 115 80 178" stroke="#e07040" stroke-width="3"
+              fill="none" stroke-linecap="round" opacity="0.6"/>
+        <!-- Highlight -->
+        <ellipse cx="60" cy="85" rx="14" ry="18" fill="white" opacity="0.18"/>
+      </svg>
+    </div>
+
+    <h1 class="title">Peach Tunes</h1>
+    <p class="subtitle">Sweet sounds, just for you</p>
+
+    <div class="player">
+      <audio id="audio" preload="auto">
+        Your browser does not support the audio element.
+      </audio>
+
+      <div class="track-info">
+        <span class="track-name" id="track-name">No file loaded</span>
+      </div>
+
+      <div class="progress-container" id="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <div class="time-row">
+        <span id="current-time">0:00</span>
+        <span id="duration">0:00</span>
+      </div>
+
+      <div class="controls">
+        <button class="ctrl-btn" id="rewind-btn" title="Rewind 10s">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 .49-4"></path>
+            <text x="8" y="15" font-size="6" fill="currentColor" stroke="none" font-weight="bold">10</text>
+          </svg>
+        </button>
+
+        <button class="play-btn" id="play-btn" title="Play / Pause">
+          <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+            <rect x="6" y="4" width="4" height="16"/>
+            <rect x="14" y="4" width="4" height="16"/>
+          </svg>
+        </button>
+
+        <button class="ctrl-btn" id="forward-btn" title="Forward 10s">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <path d="M20.49 15a9 9 0 1 1-.49-4"></path>
+            <text x="8" y="15" font-size="6" fill="currentColor" stroke="none" font-weight="bold">10</text>
+          </svg>
+        </button>
+      </div>
+
+      <div class="volume-row">
+        <svg class="vol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+        <input type="range" id="volume" min="0" max="1" step="0.01" value="1" />
+      </div>
+    </div>
+
+    <div class="drop-zone" id="drop-zone">
+      <label for="file-input" class="drop-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        <span>Drop audio file here or <u>browse</u></span>
+        <small>Supports .m4a, .mp3, .wav, .ogg, .flac&hellip;</small>
+      </label>
+      <input type="file" id="file-input" accept="audio/*" hidden />
+    </div>
+  </main>
+
+  <script>
+const audio       = document.getElementById('audio');
+const playBtn     = document.getElementById('play-btn');
+const iconPlay    = playBtn.querySelector('.icon-play');
+const iconPause   = playBtn.querySelector('.icon-pause');
+const progressBar = document.getElementById('progress-bar');
+const progressCon = document.getElementById('progress-container');
+const currentTime = document.getElementById('current-time');
+const durationEl  = document.getElementById('duration');
+const rewindBtn   = document.getElementById('rewind-btn');
+const forwardBtn  = document.getElementById('forward-btn');
+const volumeSlider= document.getElementById('volume');
+const trackName   = document.getElementById('track-name');
+const dropZone    = document.getElementById('drop-zone');
+const fileInput   = document.getElementById('file-input');
+
+function fmt(s) {
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60).toString().padStart(2, '0');
+  return `${m}:${sec}`;
+}
+
+function loadFile(file) {
+  if (!file || !file.type.startsWith('audio/')) return;
+  const url = URL.createObjectURL(file);
+  audio.src = url;
+  trackName.textContent = file.name;
+  durationEl.textContent = '0:00';
+  currentTime.textContent = '0:00';
+  progressBar.style.width = '0%';
+  audio.load();
+  audio.play();
+}
+
+fileInput.addEventListener('change', () => {
+  if (fileInput.files[0]) loadFile(fileInput.files[0]);
+});
+
+dropZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  dropZone.classList.add('drag-over');
+});
+
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('drag-over');
+});
+
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  loadFile(e.dataTransfer.files[0]);
+});
+
+playBtn.addEventListener('click', () => {
+  if (audio.paused) { audio.play(); } else { audio.pause(); }
+});
+
+audio.addEventListener('play', () => {
+  iconPlay.style.display  = 'none';
+  iconPause.style.display = '';
+});
+
+audio.addEventListener('pause', () => {
+  iconPlay.style.display  = '';
+  iconPause.style.display = 'none';
+});
+
+audio.addEventListener('timeupdate', () => {
+  if (!audio.duration) return;
+  const pct = (audio.currentTime / audio.duration) * 100;
+  progressBar.style.width = pct + '%';
+  currentTime.textContent = fmt(audio.currentTime);
+});
+
+audio.addEventListener('loadedmetadata', () => {
+  durationEl.textContent = fmt(audio.duration);
+});
+
+audio.addEventListener('ended', () => {
+  iconPlay.style.display  = '';
+  iconPause.style.display = 'none';
+  progressBar.style.width = '0%';
+  currentTime.textContent = '0:00';
+});
+
+progressCon.addEventListener('click', e => {
+  if (!audio.duration) return;
+  const rect = progressCon.getBoundingClientRect();
+  const pct  = (e.clientX - rect.left) / rect.width;
+  audio.currentTime = pct * audio.duration;
+});
+
+rewindBtn.addEventListener('click', () => {
+  audio.currentTime = Math.max(0, audio.currentTime - 10);
+});
+
+forwardBtn.addEventListener('click', () => {
+  audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 10);
+});
+
+volumeSlider.addEventListener('input', () => {
+  audio.volume = volumeSlider.value;
+});
+  </script>
+</body>
+</html>
