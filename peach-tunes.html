@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Peach Tunes</title>
+  <title>Peach Player</title>
   <style>
 /* ── Reset & base ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,61 +11,21 @@
 body {
   min-height: 100vh;
   font-family: 'Georgia', serif;
-  background: #fff4ec;
+  background-color: #fff4ec;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg transform='translate(14,8) rotate(-12,20,28)'%3E%3Cellipse cx='20' cy='14' rx='13' ry='11' fill='%23fffde7'/%3E%3Cellipse cx='8' cy='23' rx='10' ry='13' fill='%23fff9c4'/%3E%3Cellipse cx='32' cy='23' rx='10' ry='13' fill='%23fffde7'/%3E%3Cellipse cx='20' cy='20' rx='10' ry='10' fill='white' opacity='0.65'/%3E%3Cpath d='M7 32 Q20 46 33 32 L30 42 Q20 52 10 42 Z' fill='%23ffb347' stroke='%23e09030' stroke-width='0.6'/%3E%3C/g%3E%3Cg transform='translate(68,66) rotate(18,20,28)'%3E%3Cellipse cx='20' cy='14' rx='13' ry='11' fill='%23fffde7'/%3E%3Cellipse cx='8' cy='23' rx='10' ry='13' fill='%23fff9c4'/%3E%3Cellipse cx='32' cy='23' rx='10' ry='13' fill='%23fffde7'/%3E%3Cellipse cx='20' cy='20' rx='10' ry='10' fill='white' opacity='0.65'/%3E%3Cpath d='M7 32 Q20 46 33 32 L30 42 Q20 52 10 42 Z' fill='%23ffb347' stroke='%23e09030' stroke-width='0.6'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 120px 120px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  position: relative;
-}
-
-/* ── Animated background blobs ── */
-.background {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.peach-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.35;
-  animation: drift 12s ease-in-out infinite alternate;
-}
-
-.blob-1 {
-  width: 420px; height: 420px;
-  background: #ffb347;
-  top: -100px; left: -80px;
-  animation-duration: 14s;
-}
-.blob-2 {
-  width: 340px; height: 340px;
-  background: #ff8c69;
-  bottom: -80px; right: -60px;
-  animation-duration: 11s;
-  animation-delay: -4s;
-}
-.blob-3 {
-  width: 260px; height: 260px;
-  background: #ffd27f;
-  top: 50%; left: 60%;
-  animation-duration: 9s;
-  animation-delay: -7s;
-}
-
-@keyframes drift {
-  from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(30px, 20px) scale(1.08); }
 }
 
 /* ── Card ── */
 .card {
   position: relative;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 179, 71, 0.35);
@@ -247,50 +207,9 @@ input[type="range"]#volume::-moz-range-thumb {
   background: #ff8c56;
   cursor: pointer;
 }
-
-/* ── Drop zone ── */
-.drop-zone {
-  margin-top: 1.2rem;
-  border: 2px dashed rgba(200, 100, 50, 0.4);
-  border-radius: 14px;
-  padding: 1rem;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
-}
-
-.drop-zone:hover,
-.drop-zone.drag-over {
-  background: rgba(255, 160, 80, 0.12);
-  border-color: #ff8c56;
-}
-
-.drop-label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-  cursor: pointer;
-  color: #c05a10;
-  font-size: 0.85rem;
-}
-
-.drop-label svg {
-  color: #e07040;
-}
-
-.drop-label small {
-  color: #b07050;
-  font-size: 0.72rem;
-}
   </style>
 </head>
 <body>
-
-  <div class="background">
-    <div class="peach-blob blob-1"></div>
-    <div class="peach-blob blob-2"></div>
-    <div class="peach-blob blob-3"></div>
-  </div>
 
   <main class="card">
     <div class="peach-art" aria-hidden="true">
@@ -312,8 +231,8 @@ input[type="range"]#volume::-moz-range-thumb {
       </svg>
     </div>
 
-    <h1 class="title">Peach Tunes</h1>
-    <p class="subtitle">Sweet sounds, just for you</p>
+    <h1 class="title">Peach Player</h1>
+    <p class="subtitle">Sweet sounds to make hay while the sun shines</p>
 
     <div class="player">
       <audio id="audio" src="yeahbeaves.m4a" preload="auto">
@@ -370,19 +289,6 @@ input[type="range"]#volume::-moz-range-thumb {
         <input type="range" id="volume" min="0" max="1" step="0.01" value="1" />
       </div>
     </div>
-
-    <div class="drop-zone" id="drop-zone">
-      <label for="file-input" class="drop-label">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-          <polyline points="17 8 12 3 7 8"></polyline>
-          <line x1="12" y1="3" x2="12" y2="15"></line>
-        </svg>
-        <span>Drop audio file here or <u>browse</u></span>
-        <small>Supports .m4a, .mp3, .wav, .ogg, .flac&hellip;</small>
-      </label>
-      <input type="file" id="file-input" accept="audio/*" hidden />
-    </div>
   </main>
 
   <script>
@@ -397,46 +303,12 @@ const durationEl  = document.getElementById('duration');
 const rewindBtn   = document.getElementById('rewind-btn');
 const forwardBtn  = document.getElementById('forward-btn');
 const volumeSlider= document.getElementById('volume');
-const trackName   = document.getElementById('track-name');
-const dropZone    = document.getElementById('drop-zone');
-const fileInput   = document.getElementById('file-input');
 
 function fmt(s) {
   const m = Math.floor(s / 60);
   const sec = Math.floor(s % 60).toString().padStart(2, '0');
   return `${m}:${sec}`;
 }
-
-function loadFile(file) {
-  if (!file || !file.type.startsWith('audio/')) return;
-  const url = URL.createObjectURL(file);
-  audio.src = url;
-  trackName.textContent = file.name;
-  durationEl.textContent = '0:00';
-  currentTime.textContent = '0:00';
-  progressBar.style.width = '0%';
-  audio.load();
-  audio.play();
-}
-
-fileInput.addEventListener('change', () => {
-  if (fileInput.files[0]) loadFile(fileInput.files[0]);
-});
-
-dropZone.addEventListener('dragover', e => {
-  e.preventDefault();
-  dropZone.classList.add('drag-over');
-});
-
-dropZone.addEventListener('dragleave', () => {
-  dropZone.classList.remove('drag-over');
-});
-
-dropZone.addEventListener('drop', e => {
-  e.preventDefault();
-  dropZone.classList.remove('drag-over');
-  loadFile(e.dataTransfer.files[0]);
-});
 
 playBtn.addEventListener('click', () => {
   if (audio.paused) { audio.play(); } else { audio.pause(); }
